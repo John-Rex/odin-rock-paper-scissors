@@ -15,22 +15,31 @@ function computerPlay() {
   return play;
 }
 
+// Game logic to determine who wins
+function determineVictor(playerSelection, computerSelection) {
+  if ((playerSelection == 'Rock' && computerSelection == 'Paper') || 
+      (playerSelection == 'Paper' && computerSelection == 'Scissors') ||
+      (playerSelection == 'Scissors' && computerSelection == 'Rock')) {
+      return 0; // Lose
+  } else if ((playerSelection == 'Rock' && computerSelection == 'Scissors') || 
+             (playerSelection == 'Paper' && computerSelection == 'Rock') ||
+             (playerSelection == 'Scissors' && computerSelection == 'Paper')){
+      return 1; // Win
+  } else {
+      return 2; // Tie
+  }
+}
 
 function playRound(playerSelection, computerSelection) {
-  if (playerSelection.toLowerCase() == 'rock' && computerSelection == 'Paper') {
-    return "You Lose! Paper beats Rock";
-  } else if (playerSelection.toLowerCase() == 'paper' && computerSelection == 'Scissors') {
-    return "You Lose! Scissors beats Paper";
-  } else if (playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Rock') {
-    return "You Lose! Rock beats Scissors";
-  } else if (playerSelection.toLowerCase() == 'rock' && computerSelection == 'Scissors') {
-    return "You Win! Rock beats Scissors";
-  } else if (playerSelection.toLowerCase() == 'paper' && computerSelection == 'Rock') {
-    return "You Win! Paper beats Rock";
-  } else if (playerSelection.toLowerCase() == 'scissors' && computerSelection == 'Paper') {
-    return "You Win! Scissors beats Paper";
-  } else {
-    return "It's a Tie!";
+  // Formats playerSelection for determineVictor() and for final output
+  playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
+  switch (determineVictor(playerSelection, computerSelection)) {
+    case 0:
+      return `You Win! ${playerSelection} beats ${computerSelection}`;
+    case 1:
+      return `You Lose! ${computerSelection} beats ${playerSelection}`;
+    case 2:
+      return `It's a Tie!`;
   }
 }
 
@@ -41,6 +50,7 @@ function game() {
   let result = '';
   let playerPlay = '';
   for (let i = 0; i < 5; i++) {
+    // Gets player's move
     do {
       playerPlay = window.prompt('Enter rock, paper, or scissors.');
     } while (!(playerPlay.toLowerCase() == 'rock' || playerPlay.toLowerCase() == 'paper' || playerPlay.toLowerCase() == 'scissors'))
@@ -52,13 +62,14 @@ function game() {
       computerScore += 1;
     }
   }
+  // Prints results
   console.log(`Player: ${playerScore} | Computer: ${computerScore}`);
   if (playerScore > computerScore) {
     console.log("You Won!");
   } else if (playerScore < computerScore) {
     console.log("You Lose!");
   } else {
-    console.log("It's a tie!");
+    console.log("It's a Tie!");
   }
 }
 
