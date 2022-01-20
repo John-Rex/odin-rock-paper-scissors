@@ -51,9 +51,11 @@ function game() {
   let playerPlay = '';
   for (let i = 0; i < 5; i++) {
     // Gets player's move
-    do {
+    playerPlay = window.prompt('Enter rock, paper, or scissors.');
+    while (!(playerPlay.toLowerCase() == 'rock' || playerPlay.toLowerCase() == 'paper' || playerPlay.toLowerCase() == 'scissors')) {
+      alert("Invalid move. Check spelling.");
       playerPlay = window.prompt('Enter rock, paper, or scissors.');
-    } while (!(playerPlay.toLowerCase() == 'rock' || playerPlay.toLowerCase() == 'paper' || playerPlay.toLowerCase() == 'scissors'))
+    }
     result = playRound(playerPlay, computerPlay());
     console.log(result);
     if (result.includes("Win!")) {
